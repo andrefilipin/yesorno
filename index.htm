@@ -1,0 +1,445 @@
+
+<html>
+	<head>
+		<title>Corkboard demo</title>
+		 <link href='http://fonts.googleapis.com/css?family=The+Girl+Next+Door' rel='stylesheet' type='text/css'>
+		<style>
+			body{
+				margin: 0;
+				overflow: hidden;
+			}
+			a { color: inherit; } 
+			#panelLeft {
+				background: #d59754 url(wood3.jpg);
+				background-position:right; 
+				height: 100%;
+				width:250px;
+				/* note that shadows reduce the framerate significantly. */
+				-moz-box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+				-webkit-box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+				-o-box-shadow: 2px 2px 8px rgba(0,0,0,.75);
+				box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+								
+			}
+			#panelRight {
+				background: #d59754 url(cork.jpg);
+				width: 100%;
+				height: 100%;
+				position: relative;
+				left:-200px;
+
+			}
+			#posts {
+				
+				height: 100%;
+				width: 100%;
+
+
+			}
+			.wrapper {
+				padding: 15px;
+				background: white;
+				/* note that shadows reduce the framerate significantly. */
+				-moz-box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+				-webkit-box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+				-o-box-shadow: 2px 2px 8px rgba(0,0,0,.75);
+				box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+				position: absolute;
+			}
+		
+			.post {
+				max-width: 180px;
+				/*max-height: 200px;*/
+			}
+
+			.textPost{
+				font-family: 'The Girl Next Door', cursive;
+				word-wrap: break-word;
+			}
+
+			.textVoteStatusLabel{
+				font-family: 'The Girl Next Door', cursive;
+				text-decoration: underline;
+				font-weight: bold;
+				font-size: x-large;
+			}
+			.textVoteStatus{
+				font-family: 'The Girl Next Door', cursive;
+				font-weight: bold;
+				font-size: x-large;
+			}
+
+			.textVote{
+				font-family: 'The Girl Next Door', cursive;
+				word-wrap: break-word;
+				text-decoration: underline;
+				font-size: x-large;
+			}
+			.my{
+				font-family: 'The Girl Next Door', cursive;
+				word-wrap: break-word;
+				text-decoration: underline;
+				font-size: x-large;
+			}
+
+			#postNew {
+				font-family: 'The Girl Next Door', cursive;
+				padding: 15px;
+				top:10px;
+				left:20px;
+				width: 180px;
+				height: 200px;
+				background: white;
+				/* note that shadows reduce the framerate significantly. */
+				-moz-box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+				-webkit-box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+				-o-box-shadow: 2px 2px 8px rgba(0,0,0,.75);
+				box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+				position: absolute;
+				-webkit-transform: rotate(-2deg);
+			}
+
+			#postBgCB {
+				width:175px;
+		
+				margin:0px;
+				top: 250px;
+				left: 20px;
+				background: white;
+				/* note that shadows reduce the framerate significantly. */
+				-moz-box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+				-webkit-box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+				-o-box-shadow: 2px 2px 8px rgba(0,0,0,.75);
+				box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+				position: absolute;
+				-webkit-transform: rotate(2deg);
+				padding-left: 16px;
+			}
+
+			#postMy {
+				padding: 15px;
+				margin:5px;
+				top: 350px;
+				left: 20px;
+				background: rgb(81, 183, 73);
+				/* note that shadows reduce the framerate significantly. */
+				-moz-box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+				-webkit-box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+				-o-box-shadow: 2px 2px 8px rgba(0,0,0,.75);
+				box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+				position: absolute;
+				-webkit-transform: rotate(2deg);
+			}
+
+		
+			#editIcon {
+				top: 10px;
+				left: 70px;
+				position: absolute;
+			}
+			
+		</style>
+		<link type="text/css" rel="stylesheet" href="jquery-ui.css">
+		<link type="text/css" rel="stylesheet" href="css/jquery.simplecolorpicker.css">
+		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/jquery.simplecolorpicker.js"></script>
+
+		<script type="text/javascript">
+			$(function() {
+				
+				//$("#panelLeft").hover(
+				$("#panelLeft").mouseenter(function(){ 
+
+					// if($('#panelRight').position().left < -10){						
+					// 	$('#panelRight')
+					// 	.stop()
+					// 	.animate({
+					//   	 	left: 0,
+					// 	},300)
+					//   	.animate({
+					//   		left: -10,
+					// 	},300);
+					// }else{
+						$('#panelRight')
+						.stop()
+					  	.animate({
+					  		left: -10,
+						},300);
+					//}
+				
+
+				 });
+
+				$("#posts").mouseenter(function() {
+					
+					// if($('#panelRight').position().left >= -10){
+						
+					// 	$('#panelRight')
+					// 	.stop()
+					// 	.animate({left:-($("#panelLeft").width()-40)}, 400)
+					// 	.animate({left:-($("#panelLeft").width()-50)}, 300);
+					// }else{
+						$('#panelRight').stop().animate({left:-($("#panelLeft").width()-50)}, 300);
+					//}
+					
+				 });
+				
+				$("#panelRight").width($(window).width()+$("#panelLeft").width());
+				$("#posts").width($("#panelRight").width()-$("#panelLeft").width());
+
+
+				$('#postNew').draggable({
+					//	handle: "img",
+					//scroll: false,
+					//stack: "#postNew",
+					//cancel: "a.ui-icon", // clicking an icon won't initiate dragging
+				    revert: "invalid", // when not dropped, the item will revert back to its initial position
+				    //containment: "document",
+				    //helper: "clone",
+				    cursor: "move"
+					//helper: 'original',
+					//containment: "parent"
+				}).bind('click', function(){
+				  $(this).focus();
+				});		 
+
+				$('#posts').droppable({
+			      accept: "#postNew",
+			      drop: function( event, ui ) {
+			        //deleteImage( ui.draggable );
+			        var newIndex=($(".wrapper").length + 1);
+			        
+					createPost(newIndex,$('#postNew').html(),$('#postNew').css('background-color'),true);
+					//DEFINE A POSITION
+			        var position = $(ui.draggable).position();
+			        //HABILITA O DRAG
+			        dragPost('#w' + newIndex,position.top,position.left);
+			        //SALVA O POST
+					savePost($('#postNew').html(),$('#postNew').css('background-color'));
+
+			       // $(ui.draggable).hide();
+
+			        $(ui.draggable)
+				        .hide()
+				        .css({
+							"top": -50 + "px",
+							"left": 20 + "px"
+						})
+						.show(100)
+						.animate({
+							top: 15 + "px",
+						},100)
+						.animate({
+							top: 10 + "px",
+						},100);
+
+
+					$('#postNew').html('');
+			        //$(ui.draggable).show(1000);
+			      }
+			    });
+
+				
+				getPosts();
+
+				$('#colorPicker').simplecolorpicker().change(function(){
+					$('#postNew').css('background-color',$(this).val());
+				});
+
+				$('#postMy').click(function(){
+
+					showMy();
+				});
+
+			});
+
+			function createPost(index,text,bg_color,my){
+				if(my){
+					return $('#posts').append("<div class='wrapper' id='w" + index + "', style='background-color:"+bg_color+"'><div class='post'><span class='textPost'>"+text+"</span></div></div>");
+				}else{
+					return $('#posts').append("<div class='wrapper' id='w" + index + "', style='background-color:"+bg_color+"'><div class='post'><span class='textPost'>"+text+"</span><br><div id='vote"+index+"'><span class='textVote'><a href=\"javascript:votePost('"+index+"',1);\">Yes</a></span>&nbsp;&nbsp;  <span class='textPost'>or</span> &nbsp;&nbsp; <span class='textVote'><a href=\"javascript:votePost('"+index+"',2);\">No</a></span></div></div></div>");
+				}
+			}
+
+			function dragPost(element,posTop,posLeft){
+				
+				var newPost=true;
+				if(!posTop){
+					newPost = false;
+					posTop=Math.random() * ($('#posts').height() - $(element).outerHeight());
+					posLeft=(Math.random() * ($('#posts').width() - $(element).width())+$('#panelLeft').width());
+				}
+
+				var rotation = Math.random() * 60 - 30;		
+				//console.log(element);
+				$(element)
+					.draggable({
+						scroll: false,
+						stack: ".wrapper",
+						helper: 'original',
+						containment: "parent",
+						cursor: "move"
+					}).css({
+						"-moz-transform": "rotate(" + rotation + "deg)",
+						"-webkit-transform": "rotate(" + rotation + "deg)",
+						"-o-transform": "rotate(" + rotation + "deg)",
+						"transform": "rotate(" + rotation + "deg)"
+					});
+
+									
+
+					if(newPost){
+						$(element).css({
+							'position': 'absolute',
+							"top": posTop + "px",
+							"left": posLeft + "px"
+						});
+					}else{
+						$(element).css({
+							'position': 'absolute',
+							"top": -20 + "px",
+							"left": posLeft + "px"
+						}).animate({
+					  		top: posTop+5,
+						},300)
+						.animate({
+						  		top: posTop,
+						},150);
+					}
+					
+			}
+
+
+			function getPosts(index){
+	    		$.ajax({
+				  type:     "get",
+				  url:      "http://andrefilipin.com.br/yesorno/json.php",
+				  dataType: "jsonp",
+				  data:{ 'index': index },
+				  success: function(data){
+				    $(data).each(function(key,post){
+	        		 	createPost(post.id,post.text,post.bg_color);
+
+	        			dragPost('#w' + post.id);
+	        		});
+
+	        		//localStorage["yesornoLast"]=post.id;
+				  }
+				});
+			}
+
+			function savePost(text,bg_color){
+
+				$.ajax({
+				  type:     "get",
+				  url:      "http://andrefilipin.com.br/yesorno/save.php",
+				  dataType: "jsonp",
+				  data:{ 'text': text, 'bg_color': bg_color },
+				  	success: function(data){
+				        if(localStorage["yesorno"]) {
+						    var yesorno=JSON.parse(localStorage["yesorno"]);
+						    yesorno.push({index:data});
+						}else{
+						    var yesorno= new Array({index:data});
+						}
+						              
+						localStorage["yesorno"]=JSON.stringify(yesorno);
+					}
+				});
+			}
+
+			function showMy(){
+				 removeAll();
+				 //localStorage.clear();
+				 var yesorno=JSON.parse(localStorage["yesorno"]);
+
+				 //$(yesorno).each 
+				 $(yesorno).each(function(key,post){
+				 	//console.log(post.index);
+				 	getPosts(post.index);
+				 });
+
+				 //getPosts(localStorage["yesorno"]);
+			}
+
+			function removeAll(){
+				$('.wrapper').animate({
+					top :-500
+				},300,function(){
+					$('.wrapper').remove();
+				});
+			}
+
+			function votePost(index,vote){
+				$.ajax({
+					type:     "get",
+					url:      "http://andrefilipin.com.br/yesorno/vote.php",
+					dataType: "jsonp",
+					data:{ 'index': index, 'vote': vote },
+					success: function(data){
+				  		getStatus(index);
+		 		  	}
+				});
+			}
+
+			function getStatus(index){
+				$.ajax({
+				  type:     "get",
+				  url:      "http://andrefilipin.com.br/yesorno/json.php",
+				  dataType: "jsonp",
+				  data:{ 'index': index},
+				  success: function(data){
+				  	console.log(data);
+				     $('#vote'+index).hide(100);
+				     $('#vote'+index).after('<div id="status'+index+'"><span class="textVoteStatusLabel">Sim:</span> <span class="textVoteStatus">'+data[0]['yes']+'%</span><br/><span class="textVoteStatusLabel">Não:</span><span class="textVoteStatus"> '+data[0]['no']+'%</span><br/><span class="textVoteStatusLabel">Votes: '+data[0]['votes']+'</span></div>');
+				  }
+				});
+			}
+			
+		</script>
+		
+	</head>
+
+	<body>
+
+		<div id="panelRight" style="float:left;">
+			<div id="panelLeft" style="float:left;">
+				
+				<div id="postNew" contenteditable="true">
+						
+						
+				</div>
+				<div id="postBgCb">
+					<select name="colorpicker-shortlist" id="colorPicker">
+					  <option value="#7bd148">Green</option>
+					  <option value="#5484ed">Bold blue</option>
+					  <option value="#a4bdfc">Blue</option>
+					  <option value="#46d6db">Turquoise</option>
+					  <option value="#7ae7bf">Light green</option>
+					  <option value="#51b749">Bold green</option>
+					  <option value="#fbd75b">Yellow</option>
+					  <option value="#ffb878">Orange</option>
+					  <option value="#ff887c">Red</option>
+					  <option value="#dc2127">Bold red</option>
+					  <option value="#dbadff">Purple</option>
+					  <option value="#e1e1e1">Gray</option>
+					</select>	
+						
+				</div>
+
+				<div id="postMy">
+					<span class='my'>My</span>						
+				</div>
+				
+			</div>
+			<div id='posts' style="float:left;">
+				
+			</div>
+			
+		</div>
+				
+	</body>
+
+</html>
+
